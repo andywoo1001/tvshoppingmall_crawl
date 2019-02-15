@@ -2,13 +2,18 @@ import xlsxwriter
 
 from datetime import datetime, timedelta
 
+from io import BytesIO
+
+output = BytesIO()
+
 days = [(datetime.now() + timedelta(days=x)).strftime('%Y%m%d') for x in range(0, 7)]
 
 times = ['0{}'.format(str(x)) if x < 10 else str(x) for x in range(0, 26)]
 
 columns = [[chr(x * 2 + 66), chr(x * 2 + 67)] for x in range(len(days))]
 
-workbook = xlsxwriter.Workbook('result.xlsx')
+workbook = xlsxwriter.Workbook(output)
+
 # 셀 스타일 수정시 add_format으로 스타일 추가 후 각 셀에 적용
 head_format = workbook.add_format({'bold': True, 'align': 'center', 'valign': 'vcenter'})
 align_format = workbook.add_format({'valign': 'vcenter'})
